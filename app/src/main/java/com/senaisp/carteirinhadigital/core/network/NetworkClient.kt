@@ -8,60 +8,51 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
+import com.senaisp.carteirinhadigital.core.auth.SessionTokenStore
 
 class NetworkClient(
-    baseUrl: String,
-    authTokenStore: AuthTokenStore? = null
+    private val baseUrl: String,
+    private val sessionTokenStore: SessionTokenStore
 ) {
+    private val json = Json { ignoreUnknownKeys = true }
+    private fun createLoggingInterceptor(): HttpLoggingInterceptor {
 
-    private val json =
-        Json {
-            ignoreUnknownKeys = true
+        return HttpLoggingInterceptor().apply {
+            redactHeader("Authorization")
+            level = HttpLoggingInterceptor.Level.BODY
         }
+    }
+    private val publicOkHttpClient:OkHttpClient by lazy {
 
-    private val loggingInterceptor =
-        HttpLoggingInterceptor()
-            .apply {
-                redactHeader("Authorization")
-                level = if (BuildConfig.DEBUG) HttpLoggingInterceptor.Level.BASIC else HttpLoggingInterceptor.Level.NONE
-            }
-
-    private val okHttpClient =
-        OkHttpClient
-            .Builder()
-            .apply {
-
-                if (authTokenStore != null) {
-                    addInterceptor(
-                        AuthInterceptor(
-                            tokenStore = authTokenStore
-                        )
-                    )
-                }
-
-                addInterceptor(
-                    loggingInterceptor
-                )
-            }
-            .build()
-
-    private val retrofit =
-        Retrofit
-            .Builder()
-            .baseUrl(baseUrl)
-            .client(okHttpClient)
-            .addConverterFactory(
-                json.asConverterFactory(
-                    "application/json".toMediaType()
-                )
+        OkHttpClient.Builder()
+            .addInterceptor(
+                createLoggingInterceptor()
+            ).build()
+    }
+    private val authenticatedOkHttpClient:OkHttpClient by lazy {
+        OkHttpClient.Builder()
+            .addInterceptor(
+                AuthInterceptor(sessionTokenStore = sessionTokenStore)
             )
-            .build()
+            .addInterceptor(
+                createLoggingInterceptor()
+            ).build()
+    }
 
-    fun <T : Any> create(
-        serviceClass: Class<T>
-    ): T {
-        return retrofit.create(
-            serviceClass
-        )
+    private fun createRetrofit(
+        client: OkHttpClient
+    ): Retrofit {
+        return Retrofit.Builder()
+            .baseUrl(baseUrl)
+            .client(client)
+            .addConverterFactory(
+                json.asConverterFactory("application/json".toMediaType())
+            ).build()
+    }
+    fun <T : Any> createPublic(serviceClass: Class<T>): T {
+        return createRetrofit(publicOkHttpClient).create(serviceClass)
+    }
+    fun <T : Any> createAuthenticated(serviceClass: Class<T>): T {
+        return createRetrofit(authenticatedOkHttpClient).create(serviceClass)
     }
 }

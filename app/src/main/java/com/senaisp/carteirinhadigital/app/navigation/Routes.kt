@@ -2,7 +2,6 @@ package com.senaisp.carteirinhadigital.app.navigation
 
 sealed class Routes (val route: String){
 
-
     data object Login : Routes("login")
 
     data object Carteirinha : Routes("carteirinha")
@@ -10,9 +9,5 @@ sealed class Routes (val route: String){
     data object HomeAluno : Routes("homeAluno")
 
     data object UCAluno : Routes("ucAluno")
-
-    data object ProfessorHome : Routes("professorHome")
-    data object Turmas : Routes("turmas")
-    data object ProfessorUC : Routes("professorUC")
 
 }

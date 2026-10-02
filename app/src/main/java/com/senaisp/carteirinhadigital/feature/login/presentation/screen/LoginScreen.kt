@@ -45,7 +45,6 @@ private val TextWhite = Color.White.copy(alpha = 0.85f)
 fun LoginScreen(
     modifier: Modifier = Modifier,
     viewModel: LoginViewModel,
-    onProfessorClick: () -> Unit,
     onLoginSucesso: (UsuarioLogado) -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -216,13 +215,7 @@ fun LoginScreen(
             }
         }
 
-        Button(
-            onClick = onProfessorClick,
-            modifier = Modifier.fillMaxWidth().padding(top = 12.dp),
-            colors = ButtonDefaults.textButtonColors(contentColor = White)
-        ) {
-            Text("Entrar como professor")
-        }
+
 
         Spacer(
             modifier = Modifier.weight(1f)

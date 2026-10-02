@@ -3,10 +3,10 @@ package com.senaisp.carteirinhadigital.app.di
 import com.senaisp.carteirinhadigital.core.auth.AuthTokenStore
 import com.senaisp.carteirinhadigital.BuildConfig
 import com.senaisp.carteirinhadigital.core.auth.InMemoryAuthTokenStore
+import com.senaisp.carteirinhadigital.core.auth.SessionTokenStore
 import com.senaisp.carteirinhadigital.core.network.NetworkClient
 import com.senaisp.carteirinhadigital.feature.login.data.remote.service.AuthApi
 import com.senaisp.carteirinhadigital.feature.login.data.repository.ApiLoginRepositoryImpl
-import com.senaisp.carteirinhadigital.feature.login.data.repository.FakeLoginRepositoryImpl
 import com.senaisp.carteirinhadigital.feature.login.data.repository.LoginRepository
 import com.senaisp.carteirinhadigital.feature.unidadecurriculares.data.remote.service.UnidadeCurricularApi
 import com.senaisp.carteirinhadigital.feature.unidadecurriculares.data.repository.ApiUnidadeCurricularRepositoryImpl
@@ -14,44 +14,39 @@ import com.senaisp.carteirinhadigital.feature.unidadecurriculares.domain.reposit
 import kotlin.getValue
 
 class DefaultAppContainer : AppContainer {
+    override val sessionTokenStore : SessionTokenStore = SessionTokenStore()
+    private val networkClient =
+        NetworkClient(
+            baseUrl = BASE_URL,
+            sessionTokenStore = sessionTokenStore
+        )
 
-    override val authTokenStore: AuthTokenStore = InMemoryAuthTokenStore()
-    private val publicNetworkClient = NetworkClient(baseUrl = BuildConfig.API_BASE_URL)
-
-    private val authenticatedNetworkClient = NetworkClient(
-        baseUrl = BuildConfig.API_BASE_URL,
-        authTokenStore = authTokenStore
-    )
-
-    private val authApi: AuthApi by lazy {
-
-        publicNetworkClient.create(AuthApi::class.java)
+    private val authApi : AuthApi by lazy {
+        networkClient.createPublic(
+            AuthApi::class.java
+        )
     }
-
-
-    private val unidadeCurricularApi: UnidadeCurricularApi by lazy {
-
-        authenticatedNetworkClient.create(UnidadeCurricularApi::class.java)
+    private val unidadeCurricularApi : UnidadeCurricularApi by lazy {
+        networkClient.createAuthenticated(
+            UnidadeCurricularApi::class.java
+        )
     }
-
-
-    override val loginRepository: LoginRepository by lazy {
-
-        if (USE_FAKE_LOGIN_REPOSITORY) {
+    override val loginRepository : LoginRepository by lazy {
+        if (USE_FAKE_LOGIN_REPOSITORY ) {
             FakeLoginRepositoryImpl()
-
         } else {
-            ApiLoginRepositoryImpl(api = authApi)
+            ApiLoginRepositoryImpl(
+                api =authApi
+            )
         }
     }
-
-
-    override val unidadeCurricularRepository: UnidadeCurricularRepository by lazy {
-        ApiUnidadeCurricularRepositoryImpl(api = unidadeCurricularApi)
+    override val unidadeCurricularRepository : UnidadeCurricularRepository by lazy {
+        ApiUnidadeCurricularRepositoryImpl(
+            api = unidadeCurricularApi
+        )
     }
-
-
     companion object {
-        private const val USE_FAKE_LOGIN_REPOSITORY =false
+        private const val BASE_URL = "http://10.0.2.2:8080/"
+        private const val USE_FAKE_LOGIN_REPOSITORY = false
     }
 }

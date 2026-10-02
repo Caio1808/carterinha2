@@ -19,6 +19,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
@@ -29,7 +30,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.senaisp.carteirinhadigital.R
-import com.senaisp.carteirinhadigital.core.designsystem.theme.appFontFamily
+import com.senaisp.carteirinhadigital.feature.carteirinha.presentation.component.PerfilAluno
 import com.senaisp.carteirinhadigital.feature.carteirinha.presentation.component.QrCode
 import com.senaisp.carteirinhadigital.feature.login.domain.model.UsuarioLogado
 
@@ -39,124 +40,47 @@ private val ChipColor = Color(0x36ADADAD)
 
 @Composable
 fun CarteirinhaScreen(
-    navController: NavController,
-    aluno: UsuarioLogado,
+    usuarioLogado: UsuarioLogado,
     modifier: Modifier = Modifier
 ) {
+
     Box(
-        modifier = modifier
-            .fillMaxSize()
-            .background(Background)
+        modifier = modifier.fillMaxSize()
     ) {
 
-        Text(
-            text = "‹",
-            color = White,
-            fontSize = 43.sp,
-            fontFamily = appFontFamily,
-            fontWeight = FontWeight.Light,
+        Image(
+            painter = painterResource(id = R.drawable.fundo),
+            contentDescription = "Fundo",
             modifier = Modifier
-                .padding(
-                    start = 13.dp,
-                    top = 10.dp
-                )
-                .clickable {
-                    navController.popBackStack()
-                }
+                .fillMaxSize()
+                .alpha(0.35f),
+            contentScale = ContentScale.Crop
         )
 
         Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.SpaceEvenly,
             modifier = Modifier
                 .fillMaxSize()
-                .padding(
-                    start = 27.dp,
-                    end = 27.dp
-                ),
-            horizontalAlignment = Alignment.CenterHorizontally
+                .padding(20.dp)
         ) {
 
-            Spacer(
-                modifier = Modifier.height(134.dp)
-            )
-
             Image(
-                painter = painterResource(id = R.drawable.login),
-                contentDescription = "Foto do aluno",
-                contentScale = ContentScale.Crop,
+                painter = painterResource(id = R.drawable.logo),
+                contentDescription = "Logo Senai",
                 modifier = Modifier
-                    .size(142.dp)
-                    .clip(CircleShape)
+                    .fillMaxWidth(0.72f)
             )
 
-            Spacer(
-                modifier = Modifier.height(57.dp)
-            )
-
-            // Nome
-            Text(
-                text = aluno.nome,
-                color = White,
-                fontSize = 23.sp,
-                fontFamily = appFontFamily,
-                fontWeight = FontWeight.Medium,
-                modifier = Modifier.fillMaxWidth()
-            )
-
-            Spacer(
-                modifier = Modifier.height(21.dp)
-            )
-
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(17.dp)
-            ) {
-
-                InfoChip(
-                    text = aluno.curso,
-                    modifier = Modifier.weight(1f)
-                )
-
-                InfoChip(
-                    text = aluno.turma,
-                    modifier = Modifier.weight(1f)
-                )
-            }
-
-            Spacer(
-                modifier = Modifier.height(45.dp)
+            PerfilAluno(
+                nome = usuarioLogado.nome,
+                matricula = usuarioLogado.matricula,
+                curso = usuarioLogado.curso
             )
 
             QrCode(
-                conteudo = aluno.id
+                conteudo = usuarioLogado.matricula
             )
         }
-    }
-}
-
-@Composable
-private fun InfoChip(
-    text: String,
-    modifier: Modifier = Modifier
-) {
-    Box(
-        modifier = modifier
-            .height(29.dp)
-            .shadow(
-                elevation = 3.dp,
-                shape = RoundedCornerShape(35.dp)
-            )
-            .background(
-                color = ChipColor,
-                shape = RoundedCornerShape(35.dp)
-            ),
-        contentAlignment = Alignment.Center
-    ) {
-        Text(
-            text = text,
-            color = White,
-            fontSize = 12.sp,
-            fontFamily = appFontFamily,
-            fontWeight = FontWeight.Medium
-        )
     }
 }
