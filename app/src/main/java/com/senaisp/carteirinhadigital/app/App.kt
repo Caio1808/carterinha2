@@ -9,7 +9,7 @@ import androidx.compose.runtime.setValue
 import androidx.navigation.compose.rememberNavController
 import com.senaisp.carteirinhadigital.app.di.AppContainer
 import com.senaisp.carteirinhadigital.app.navigation.AppNavHost
-import com.senaisp.carteirinhadigital.core.designsystem.theme.CarteirinhaDigital
+import com.senaisp.carteirinhadigital.core.designsystem.theme.CarteirinhaTheme
 
 @Composable
 fun App(container: AppContainer) {
@@ -17,7 +17,7 @@ fun App(container: AppContainer) {
     val systemDarkTheme = isSystemInDarkTheme()
     var darkTheme by rememberSaveable { mutableStateOf(systemDarkTheme) }
 
-    CarteirinhaDigital2DEVESTTheme(
+    CarteirinhaTheme(
         darkTheme = darkTheme
     ) {
         val navController = rememberNavController()

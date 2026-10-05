@@ -7,6 +7,7 @@ import com.senaisp.carteirinhadigital.core.auth.SessionTokenStore
 import com.senaisp.carteirinhadigital.core.network.NetworkClient
 import com.senaisp.carteirinhadigital.feature.login.data.remote.service.AuthApi
 import com.senaisp.carteirinhadigital.feature.login.data.repository.ApiLoginRepositoryImpl
+import com.senaisp.carteirinhadigital.feature.login.data.repository.FakeLoginRepositoryImpl
 import com.senaisp.carteirinhadigital.feature.login.data.repository.LoginRepository
 import com.senaisp.carteirinhadigital.feature.unidadecurriculares.data.remote.service.UnidadeCurricularApi
 import com.senaisp.carteirinhadigital.feature.unidadecurriculares.data.repository.ApiUnidadeCurricularRepositoryImpl

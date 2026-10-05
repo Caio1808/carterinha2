@@ -1,8 +1,9 @@
 package com.senaisp.carteirinhadigital.feature.login.data.repository
 
+import com.senaisp.carteirinhadigital.feature.login.domain.model.UsuarioLogado
 import kotlinx.coroutines.delay
 
-class FakeAuthRepository : LoginRepository {
+class FakeLoginRepositoryImpl : LoginRepository {
     override suspend fun login(
         login: String,
         senha: String

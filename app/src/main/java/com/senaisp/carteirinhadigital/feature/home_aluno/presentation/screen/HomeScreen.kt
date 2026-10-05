@@ -17,6 +17,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.senaisp.carteirinhadigital.app.navigation.Routes
+import com.senaisp.carteirinhadigital.core.designsystem.theme.CarteirinhaTheme
+import com.senaisp.carteirinhadigital.feature.home_aluno.presentation.component.BotaoNavegacao
 import com.senaisp.carteirinhadigital.feature.login.domain.model.UsuarioLogado
 
 @Composable

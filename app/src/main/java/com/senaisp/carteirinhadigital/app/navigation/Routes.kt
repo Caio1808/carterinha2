@@ -10,4 +10,10 @@ sealed class Routes (val route: String){
 
     data object UCAluno : Routes("ucAluno")
 
+    data object Turmas : Routes("turmas")
+
+    data object ProfessorUC : Routes("professorUC")
+
+    data object ProfessorHome : Routes("professorHome")
+
 }
