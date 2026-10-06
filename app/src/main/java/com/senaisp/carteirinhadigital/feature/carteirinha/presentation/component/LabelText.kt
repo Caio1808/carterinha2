@@ -1,9 +1,9 @@
 package com.senaisp.carteirinhadigital.feature.carteirinha.presentation.component
 
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
 
@@ -15,7 +15,7 @@ fun LabelText(
     Text(
         text = text,
         fontSize = 20.sp,
-        color = Color.Black,
+        color = MaterialTheme.colorScheme.onSurface,
         textAlign = TextAlign.Right,
         modifier = modifier
     )

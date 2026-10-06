@@ -1,7 +1,6 @@
 package com.senaisp.carteirinhadigital.feature.login.presentation.screen
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -35,6 +34,7 @@ import com.senaisp.carteirinhadigital.R
 import com.senaisp.carteirinhadigital.feature.login.domain.model.UsuarioLogado
 import com.senaisp.carteirinhadigital.feature.login.presentation.LoginEvent
 import com.senaisp.carteirinhadigital.feature.login.presentation.LoginViewModel
+import androidx.compose.foundation.layout.Box
 
 private val Background = Color(0xFF282828)
 private val White = Color(0xFFF3F3F3)
@@ -55,170 +55,180 @@ fun LoginScreen(
             onLoginSucesso(usuario)
         }
     }
-
-    Column(
-        modifier = modifier
-            .fillMaxSize()
-            .background(Background)
-            .padding(horizontal = 45.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
+    Box(
+        modifier = modifier.fillMaxSize()
     ) {
-
-        Spacer(
-            modifier = Modifier.weight(1f)
-        )
-
-        // Logo SENAI
+        // Imagem de Fundo
         Image(
-            painter = painterResource(
-                id = R.drawable.senai_logo
-            ),
-            contentDescription = "SENAI",
+            painter = painterResource(id = R.drawable.fundo1),
+            contentDescription = null,
+            modifier = Modifier.fillMaxSize(),
+            contentScale = ContentScale.Crop
+        )
+
+        // Conteúdo da tela (Campos de E-mail, Senha, Botão, etc.)
+        Column(
             modifier = Modifier
-                .size(
-                    width = 206.dp,
-                    height = 55.dp
-                ),
-            contentScale = ContentScale.Fit
-        )
-
-        Spacer(
-            modifier = Modifier.height(24.dp)
-        )
-
-        Text(
-            text = "Portal Educacional",
-            color = Color.White,
-            style = MaterialTheme.typography.titleLarge
-        )
-
-        Text(
-            text = "Acesse sua conta de aluno",
-            color = Color.White.copy(alpha = 0.74f),
-            style = MaterialTheme.typography.bodySmall
-        )
-
-        Spacer(
-            modifier = Modifier.height(70.dp)
-        )
-
-        // E-mail
-        Column(
-            modifier = Modifier.fillMaxWidth()
+                .fillMaxSize()
+                .padding(horizontal = 45.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
+            Spacer(
+                modifier = Modifier.weight(1f)
+            )
 
-            Text(
-                text = "E-mail",
-                color = TextWhite,
-                style = MaterialTheme.typography.titleMedium
+            // Logo SENAI
+            Image(
+                painter = painterResource(
+                    id = R.drawable.senai_logo
+                ),
+                contentDescription = "SENAI",
+                modifier = Modifier
+                    .size(
+                        width = 206.dp,
+                        height = 55.dp
+                    ),
+                contentScale = ContentScale.Fit
             )
 
             Spacer(
-                modifier = Modifier.height(3.dp)
+                modifier = Modifier.height(24.dp)
             )
-
-            OutlinedTextField(
-                value = uiState.usuario,
-                onValueChange = { value ->
-                    viewModel.onEvent(LoginEvent.OnUsuarioChange(value))
-                },
-                modifier = Modifier.fillMaxWidth(),
-                singleLine = true,
-                colors = OutlinedTextFieldDefaults.colors(
-                    focusedBorderColor = Border,
-                    unfocusedBorderColor = Border,
-                    focusedTextColor = Color.White,
-                    unfocusedTextColor = Color.White,
-                    cursorColor = Color.White
-                ),
-                shape = RoundedCornerShape(8.dp),
-                keyboardOptions = KeyboardOptions(
-                    keyboardType = KeyboardType.Email
-                )
-            )
-        }
-
-        Spacer(
-            modifier = Modifier.height(23.dp)
-        )
-
-        // Senha
-        Column(
-            modifier = Modifier.fillMaxWidth()
-        ) {
 
             Text(
-                text = "Senha",
-                color = TextWhite,
-                style = MaterialTheme.typography.titleMedium
+                text = "Portal Educacional",
+                color = Color.White,
+                style = MaterialTheme.typography.titleLarge
             )
 
-            Spacer(
-                modifier = Modifier.height(3.dp)
-            )
-
-            OutlinedTextField(
-                value = uiState.senha,
-                onValueChange = { viewModel.onEvent(LoginEvent.OnSenhaChange(it)) },
-                modifier = Modifier.fillMaxWidth(),
-                singleLine = true,
-                visualTransformation = PasswordVisualTransformation(),
-                colors = OutlinedTextFieldDefaults.colors(
-                    focusedBorderColor = Border,
-                    unfocusedBorderColor = Border,
-                    focusedTextColor = Color.White,
-                    unfocusedTextColor = Color.White,
-                    cursorColor = Color.White
-                ),
-                shape = RoundedCornerShape(8.dp),
-                keyboardOptions = KeyboardOptions(
-                    keyboardType = KeyboardType.Password
-                )
-            )
-        }
-
-        Spacer(
-            modifier = Modifier.height(12.dp)
-        )
-
-        uiState.erroMessage?.let { error ->
             Text(
-                text = error,
-                color = Color(0xFFFF6B6B),
+                text = "Acesse sua conta de aluno",
+                color = Color.White.copy(alpha = 0.74f),
                 style = MaterialTheme.typography.bodySmall
             )
-        }
 
-        Spacer(
-            modifier = Modifier.height(24.dp)
-        )
-
-        // Botão Entrar
-        Button(
-            onClick = { viewModel.onEvent(LoginEvent.OnEntrarClick) },
-            enabled = !uiState.isLoading,
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(42.dp),
-            shape = RoundedCornerShape(8.dp),
-            colors = ButtonDefaults.buttonColors(
-                containerColor = White,
-                contentColor = Color.Black
+            Spacer(
+                modifier = Modifier.height(70.dp)
             )
-        ) {
 
-            if (uiState.isLoading) {
-                CircularProgressIndicator(modifier = Modifier.size(24.dp), color = Color.Black)
-            } else {
-                Text(text = "Entrar", style = MaterialTheme.typography.titleMedium, color = Color.Black)
-                Text(text = "›", modifier = Modifier.padding(start = 5.dp), fontSize = 25.sp, color = Color.Black)
+            // E-mail
+            Column(
+                modifier = Modifier.fillMaxWidth()
+            ) {
+
+                Text(
+                    text = "E-mail",
+                    color = TextWhite,
+                    style = MaterialTheme.typography.titleMedium
+                )
+
+                Spacer(
+                    modifier = Modifier.height(3.dp)
+                )
+
+                OutlinedTextField(
+                    value = uiState.usuario,
+                    onValueChange = { value ->
+                        viewModel.onEvent(LoginEvent.OnUsuarioChange(value))
+                    },
+                    modifier = Modifier.fillMaxWidth(),
+                    singleLine = true,
+                    colors = OutlinedTextFieldDefaults.colors(
+                        focusedBorderColor = Border,
+                        unfocusedBorderColor = Border,
+                        focusedTextColor = Color.White,
+                        unfocusedTextColor = Color.White,
+                        cursorColor = Color.White
+                    ),
+                    shape = RoundedCornerShape(8.dp),
+                    keyboardOptions = KeyboardOptions(
+                        keyboardType = KeyboardType.Email
+                    )
+                )
             }
+
+            Spacer(
+                modifier = Modifier.height(23.dp)
+            )
+
+            // Senha
+            Column(
+                modifier = Modifier.fillMaxWidth()
+            ) {
+
+                Text(
+                    text = "Senha",
+                    color = TextWhite,
+                    style = MaterialTheme.typography.titleMedium
+                )
+
+                Spacer(
+                    modifier = Modifier.height(3.dp)
+                )
+
+                OutlinedTextField(
+                    value = uiState.senha,
+                    onValueChange = { viewModel.onEvent(LoginEvent.OnSenhaChange(it)) },
+                    modifier = Modifier.fillMaxWidth(),
+                    singleLine = true,
+                    visualTransformation = PasswordVisualTransformation(),
+                    colors = OutlinedTextFieldDefaults.colors(
+                        focusedBorderColor = Border,
+                        unfocusedBorderColor = Border,
+                        focusedTextColor = Color.White,
+                        unfocusedTextColor = Color.White,
+                        cursorColor = Color.White
+                    ),
+                    shape = RoundedCornerShape(8.dp),
+                    keyboardOptions = KeyboardOptions(
+                        keyboardType = KeyboardType.Password
+                    )
+                )
+            }
+
+            Spacer(
+                modifier = Modifier.height(12.dp)
+            )
+
+            uiState.erroMessage?.let { error ->
+                Text(
+                    text = error,
+                    color = Color(0xFFFF6B6B),
+                    style = MaterialTheme.typography.bodySmall
+                )
+            }
+
+            Spacer(
+                modifier = Modifier.height(24.dp)
+            )
+
+            // Botão Entrar
+            Button(
+                onClick = { viewModel.onEvent(LoginEvent.OnEntrarClick) },
+                enabled = !uiState.isLoading,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(42.dp),
+                shape = RoundedCornerShape(8.dp),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = White,
+                    contentColor = Color.Black
+                )
+            ) {
+
+                if (uiState.isLoading) {
+                    CircularProgressIndicator(modifier = Modifier.size(24.dp), color = Color.Black)
+                } else {
+                    Text(text = "Entrar", style = MaterialTheme.typography.titleMedium, color = Color.Black)
+                    Text(text = "›", modifier = Modifier.padding(start = 5.dp), fontSize = 25.sp, color = Color.Black)
+                }
+            }
+
+
+
+            Spacer(
+                modifier = Modifier.weight(1f)
+            )
         }
-
-
-
-        Spacer(
-            modifier = Modifier.weight(1f)
-        )
     }
 }

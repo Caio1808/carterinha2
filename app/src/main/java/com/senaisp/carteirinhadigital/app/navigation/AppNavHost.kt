@@ -133,6 +133,7 @@ fun AppNavHost(
                 ) { innerPadding ->
                     CarteirinhaScreen(
                         usuarioLogado = usuario,
+                        isDarkTheme = darkTheme,
                         modifier = Modifier
                             .fillMaxSize()
                             .padding(innerPadding)
