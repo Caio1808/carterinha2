@@ -35,10 +35,11 @@ import com.senaisp.carteirinhadigital.feature.login.domain.model.UsuarioLogado
 import com.senaisp.carteirinhadigital.feature.login.presentation.LoginEvent
 import com.senaisp.carteirinhadigital.feature.login.presentation.LoginViewModel
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.width
 
 private val Background = Color(0xFF282828)
-private val White = Color(0xFFF3F3F3)
-private val Border = Color(0xFF969696)
+private val White = Color(0xFF504C43)
+private val Border = Color(0xFFFFFFFF)
 private val TextWhite = Color.White.copy(alpha = 0.85f)
 
 @Composable
@@ -60,7 +61,7 @@ fun LoginScreen(
     ) {
         // Imagem de Fundo
         Image(
-            painter = painterResource(id = R.drawable.fundo1),
+            painter = painterResource(id = R.drawable.fundo2),
             contentDescription = null,
             modifier = Modifier.fillMaxSize(),
             contentScale = ContentScale.Crop
@@ -75,6 +76,9 @@ fun LoginScreen(
         ) {
             Spacer(
                 modifier = Modifier.weight(1f)
+            )
+            Spacer(
+                modifier = Modifier.height(50.dp)
             )
 
             // Logo SENAI
@@ -92,23 +96,7 @@ fun LoginScreen(
             )
 
             Spacer(
-                modifier = Modifier.height(24.dp)
-            )
-
-            Text(
-                text = "Portal Educacional",
-                color = Color.White,
-                style = MaterialTheme.typography.titleLarge
-            )
-
-            Text(
-                text = "Acesse sua conta de aluno",
-                color = Color.White.copy(alpha = 0.74f),
-                style = MaterialTheme.typography.bodySmall
-            )
-
-            Spacer(
-                modifier = Modifier.height(70.dp)
+                modifier = Modifier.height(110.dp)
             )
 
             // E-mail
@@ -116,15 +104,7 @@ fun LoginScreen(
                 modifier = Modifier.fillMaxWidth()
             ) {
 
-                Text(
-                    text = "E-mail",
-                    color = TextWhite,
-                    style = MaterialTheme.typography.titleMedium
-                )
 
-                Spacer(
-                    modifier = Modifier.height(3.dp)
-                )
 
                 OutlinedTextField(
                     value = uiState.usuario,
@@ -133,12 +113,21 @@ fun LoginScreen(
                     },
                     modifier = Modifier.fillMaxWidth(),
                     singleLine = true,
+
+                    // Texto indicativo dentro do campo
+                    placeholder = {
+                        Text(
+                            text = "Email",
+                            color = Color.Black
+                        )
+                    },
+
                     colors = OutlinedTextFieldDefaults.colors(
                         focusedBorderColor = Border,
                         unfocusedBorderColor = Border,
-                        focusedTextColor = Color.White,
-                        unfocusedTextColor = Color.White,
-                        cursorColor = Color.White
+                        focusedTextColor = Color.Black,
+                        unfocusedTextColor = Color.Black,
+                        cursorColor = Color.Black
                     ),
                     shape = RoundedCornerShape(8.dp),
                     keyboardOptions = KeyboardOptions(
@@ -148,7 +137,7 @@ fun LoginScreen(
             }
 
             Spacer(
-                modifier = Modifier.height(23.dp)
+                modifier = Modifier.height(55.dp)
             )
 
             // Senha
@@ -156,11 +145,6 @@ fun LoginScreen(
                 modifier = Modifier.fillMaxWidth()
             ) {
 
-                Text(
-                    text = "Senha",
-                    color = TextWhite,
-                    style = MaterialTheme.typography.titleMedium
-                )
 
                 Spacer(
                     modifier = Modifier.height(3.dp)
@@ -168,16 +152,28 @@ fun LoginScreen(
 
                 OutlinedTextField(
                     value = uiState.senha,
-                    onValueChange = { viewModel.onEvent(LoginEvent.OnSenhaChange(it)) },
+                    onValueChange = {
+                        viewModel.onEvent(LoginEvent.OnSenhaChange(it))
+                    },
                     modifier = Modifier.fillMaxWidth(),
                     singleLine = true,
+
+                    // Texto indicativo dentro do campo
+                    placeholder = {
+                        Text(
+                            text = "Senha",
+                            color = Color.Black
+                        )
+                    },
+
                     visualTransformation = PasswordVisualTransformation(),
+
                     colors = OutlinedTextFieldDefaults.colors(
                         focusedBorderColor = Border,
                         unfocusedBorderColor = Border,
-                        focusedTextColor = Color.White,
-                        unfocusedTextColor = Color.White,
-                        cursorColor = Color.White
+                        focusedTextColor = Color.Black,
+                        unfocusedTextColor = Color.Black,
+                        cursorColor = Color.Black
                     ),
                     shape = RoundedCornerShape(8.dp),
                     keyboardOptions = KeyboardOptions(
@@ -187,7 +183,7 @@ fun LoginScreen(
             }
 
             Spacer(
-                modifier = Modifier.height(12.dp)
+                modifier = Modifier.height(62.dp)
             )
 
             uiState.erroMessage?.let { error ->
@@ -207,20 +203,19 @@ fun LoginScreen(
                 onClick = { viewModel.onEvent(LoginEvent.OnEntrarClick) },
                 enabled = !uiState.isLoading,
                 modifier = Modifier
-                    .fillMaxWidth()
+                    .width(140.dp)
                     .height(42.dp),
-                shape = RoundedCornerShape(8.dp),
+                shape = RoundedCornerShape(1.dp),
                 colors = ButtonDefaults.buttonColors(
                     containerColor = White,
-                    contentColor = Color.Black
+                    contentColor = Color.White
                 )
             ) {
 
                 if (uiState.isLoading) {
-                    CircularProgressIndicator(modifier = Modifier.size(24.dp), color = Color.Black)
+                    CircularProgressIndicator(modifier = Modifier.size(24.dp), color = Color.White)
                 } else {
-                    Text(text = "Entrar", style = MaterialTheme.typography.titleMedium, color = Color.Black)
-                    Text(text = "›", modifier = Modifier.padding(start = 5.dp), fontSize = 25.sp, color = Color.Black)
+                    Text(text = "Entrar", style = MaterialTheme.typography.titleMedium, color = Color.White)
                 }
             }
 
@@ -232,3 +227,4 @@ fun LoginScreen(
         }
     }
 }
+//Código feito por Caio Gogojoli
